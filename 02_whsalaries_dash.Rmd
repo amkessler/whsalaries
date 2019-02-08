@@ -1,11 +1,12 @@
 ---
-title: "Candidate Event Tracker"
+title: "White House Salaries"
 resource_files:
 - .httr-oauth
 output:
   flexdashboard::flex_dashboard:
     orientation: rows
     vertical_layout: fill
+    theme: cerulean
 ---
 
 ```{r setup, include=FALSE}
@@ -51,7 +52,7 @@ salaries$salary <- parse_number(salaries$salary)
 
 
 
-Data Table 
+2017-2018 Salaries Data 
 =====================================
 To filter, click on the boxes at the top of the columns. To sort, use the up/down arrows by the column names.
 
@@ -71,19 +72,33 @@ salaries_table <- salaries %>%
     status = as.factor(status)
     )
 
+
 datatable(salaries_table,
           rownames = FALSE,
           filter = "top",
           extensions = 'Buttons',
-          options = list(bPaginate = FALSE, dom = 'Bfrtip',
-     buttons = c('copy', 'csv', 'excel', 'print')
-          )) 
-# %>%
-#   formatDate('date', 'toLocaleDateString') %>%
-#   formatStyle('cand_fullname', fontWeight = 'bold')
+          options = list(searchHighlight = TRUE, bPaginate = FALSE, dom = 'Bfrtip',
+       buttons = c('copy', 'csv', 'excel', 'print')
+          )) %>% 
+      formatCurrency('salary', digits = 0) %>% 
+      formatStyle(c("last","first_mid", "salary"), fontWeight = 'bold') %>% 
+      # formatStyle("salary", color = "darkred") %>% 
+      formatStyle(
+      'salary',
+      background = styleColorBar(salaries_table$salary, 'steelblue'),
+      backgroundSize = '100% 90%',
+      backgroundRepeat = 'no-repeat',
+      backgroundPosition = 'center'
+    )
 
+
+  # DT::formatPercentage(c('approve', 'disapprove')) %>% 
+  # DT::formatStyle('approve',  color = 'darkgreen', fontWeight = 'bold') %>% 
+  # DT::formatStyle('disapprove',  color = 'darkred', fontWeight = 'bold') 
 
 ```
 
 
-
+Questions
+=====================================
+If you have any questions about these records, please contact Maegan.Vazquez@turner.com or Aaron.Kessler@turner.com. (Note: we expect the new 2019 salary figures to be available in July.)
