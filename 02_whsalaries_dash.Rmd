@@ -76,7 +76,7 @@ salaries_table <- salaries %>%
 datatable(salaries_table,
           rownames = FALSE,
           filter = "top",
-          extensions = 'Buttons',
+          extensions = 'Buttons', 
           options = list(searchHighlight = TRUE, bPaginate = FALSE, dom = 'Bfrtip',
        buttons = c('copy', 'csv', 'excel', 'print')
           )) %>% 
