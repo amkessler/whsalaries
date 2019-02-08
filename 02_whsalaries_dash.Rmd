@@ -47,6 +47,51 @@ salaries <- salaries %>%
 
 salaries$salary <- parse_number(salaries$salary)
 
+
+
+#### looking for those who are in both years' of data ####
+
+yr2017 <- salaries %>% 
+  filter(year == "2017")
+
+yr2018 <- salaries %>% 
+  filter(year == "2018")
+
+joined <- inner_join(yr2017, yr2018, by = c("name" = "name"))
+
+names(joined)
+
+#select relevant columns and rename
+joined2 <- joined %>% 
+  select(
+    name,
+    salary2017 = salary.x,
+    salary2018 = salary.y,
+    title2017 = positiontitle.x,
+    title2018 = positiontitle.y
+    )
+
+raises <- joined2 %>% 
+  mutate(
+    difference = (salary2018 - salary2017),
+    pct_change = (difference/salary2017)
+  ) %>% 
+  select(
+    name,
+    salary2017,
+    salary2018,
+    difference,
+    pct_change,
+    title2017,
+    title2018
+  ) %>% 
+  arrange(desc(pct_change))
+
+
+
+
+
+
 ```
 
 
@@ -98,6 +143,34 @@ datatable(salaries_table,
   # DT::formatStyle('disapprove',  color = 'darkred', fontWeight = 'bold') 
 
 ```
+
+
+Who got the biggest raises 
+=====================================
+To filter, click on the boxes at the top of the columns. To sort, use the up/down arrows by the column names.
+
+Row {data-height=1000}
+-----------------------------------------------------------------------
+
+```{r}
+
+datatable(raises,
+          rownames = FALSE,
+          filter = "top",
+          extensions = 'Buttons', 
+          options = list(searchHighlight = TRUE, bPaginate = FALSE, dom = 'Bfrtip',
+       buttons = c('copy', 'csv', 'excel', 'print')
+          )) %>% 
+      formatCurrency(c("salary2017", "salary2018", "difference"), digits = 0) %>% 
+      formatStyle(c("name", "difference", "pct_change"), fontWeight = 'bold') %>% 
+      formatPercentage("pct_change")
+      # formatStyle("salary", color = "darkred") %>% 
+
+
+
+```
+
+
 
 
 Questions
