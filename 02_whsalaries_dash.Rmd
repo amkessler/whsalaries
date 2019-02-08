@@ -1,0 +1,89 @@
+---
+title: "Candidate Event Tracker"
+resource_files:
+- .httr-oauth
+output:
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+
+library(flexdashboard)
+library(tidyverse)
+library(lubridate)
+library(janitor)
+library(glue)
+library(plotly)
+library(DT)
+library(googlesheets)
+library(kableExtra)
+library(leaflet)
+# library(ggmap)
+library(RColorBrewer)
+library(htmlwidgets)
+library(htmltools)
+library(tigris)
+options(tigris_class = "sf")
+
+
+#import and format columns
+salaries <- read_csv("whsalaries_2017_2018.csv")
+
+salaries <- salaries %>% 
+  clean_names() %>% 
+  mutate(
+    name = str_to_upper(name),
+    last = str_to_upper(last),
+    first_m = str_to_upper(first_m),
+    first = str_to_upper(first),
+    status = str_to_upper(status),
+    paybasis = str_to_upper(paybasis),
+    positiontitle = str_to_upper(positiontitle)
+    )
+
+salaries$salary <- parse_number(salaries$salary)
+
+```
+
+
+
+
+
+Data Table 
+=====================================
+To filter, click on the boxes at the top of the columns. To sort, use the up/down arrows by the column names.
+
+Row {data-height=1000}
+-----------------------------------------------------------------------
+
+```{r}
+
+salaries_table <- salaries %>% 
+  select(
+    year, first_mid = first_m, last, everything(),
+    -name, -first
+    ) %>% 
+  mutate(
+    year = as.factor(year),
+    paybasis = as.factor(paybasis),
+    status = as.factor(status)
+    )
+
+datatable(salaries_table,
+          rownames = FALSE,
+          filter = "top",
+          extensions = 'Buttons',
+          options = list(bPaginate = FALSE, dom = 'Bfrtip',
+     buttons = c('copy', 'csv', 'excel', 'print')
+          )) 
+# %>%
+#   formatDate('date', 'toLocaleDateString') %>%
+#   formatStyle('cand_fullname', fontWeight = 'bold')
+
+
+```
+
+
+
