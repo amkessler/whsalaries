@@ -104,3 +104,44 @@ raises %>%
 
 raises %>% 
   summarise(mean(salary2018))
+
+
+
+### finding highest paid people ####
+
+salaries %>% 
+  filter(year == "2017") %>% 
+  select(name, salary, positiontitle) %>% 
+  arrange(desc(salary)) %>% 
+  head(30) %>% 
+  View()
+
+salaries %>% 
+  filter(year == "2018") %>% 
+  select(name, salary, positiontitle) %>% 
+  arrange(desc(salary)) %>% 
+  head(30) 
+  
+
+# how many people paid the same amount each year
+salaries %>% 
+  filter(year == "2017",
+         salary > 100000) %>% 
+  count(salary) %>% 
+  arrange(desc(salary))
+
+salaries %>% 
+  filter(year == "2018",
+         salary > 100000) %>% 
+  count(salary) %>% 
+  arrange(desc(salary))
+
+
+salaries %>% 
+  filter(salary > 100000) %>% 
+  count(year) 
+
+
+salaries %>%  
+  count(year) 
+
