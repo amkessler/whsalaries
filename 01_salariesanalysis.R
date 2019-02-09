@@ -73,3 +73,34 @@ raises <- joined2 %>%
   )
 
 write_csv(raises, "raises.csv")
+
+
+
+### looking and avgs and medians ####
+
+#for everyone, by year
+salaries %>% 
+  group_by(year) %>% 
+  summarise(median(salary))
+
+salaries %>% 
+  group_by(year) %>% 
+  summarise(mean(salary))
+
+salaries %>% 
+  group_by(year) %>% 
+  summarise(sum(salary))
+
+
+# for those coming back for 2nd year - 232 people
+raises %>% 
+  summarise(median(salary2017))
+
+raises %>% 
+  summarise(median(salary2018))
+
+raises %>% 
+  summarise(mean(salary2017))
+
+raises %>% 
+  summarise(mean(salary2018))
