@@ -141,7 +141,20 @@ salaries %>%
   filter(salary > 100000) %>% 
   count(year) 
 
-
 salaries %>%  
   count(year) 
+
+annualtots <- salaries %>%  
+  group_by(year) %>% 
+  summarise(total = sum(salary))
+
+#try lag
+right <- mutate(annualtots, prev = lag(total, order_by = year))
+#calculate difference between 2017 and 2018 totals
+annualtots %>% 
+  mutate(change = total-lag(total),
+         pctchange = (total-lag(total))/lag(total)*100)
+  
+
+
 
