@@ -163,8 +163,8 @@ datatable(raises,
           )) %>% 
       formatCurrency(c("salary2017", "salary2018", "difference"), digits = 0) %>% 
       formatStyle(c("name", "difference", "pct_change"), fontWeight = 'bold') %>% 
-      formatPercentage("pct_change")
-      # formatStyle("salary", color = "darkred") %>% 
+      formatPercentage("pct_change") %>% 
+      formatStyle(c("difference", "pct_change"), color = "darkgreen") 
 
 
 
