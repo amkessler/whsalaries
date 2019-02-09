@@ -110,11 +110,10 @@ Row {data-height=1000}
 salaries_table <- salaries %>% 
   select(
     year, first_mid = first_m, last, everything(),
-    -name, -first
+    -name, -first, -paybasis #paybasis is the same per annum for everyone in the data
     ) %>% 
   mutate(
     year = as.factor(year),
-    paybasis = as.factor(paybasis),
     status = as.factor(status)
     )
 

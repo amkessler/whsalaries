@@ -14,6 +14,7 @@ library(htmlwidgets)
 library(htmltools)
 library(tigris)
 options(tigris_class = "sf")
+library(summarytools)
 
 
 #import and format columns
@@ -156,5 +157,6 @@ annualtots %>%
          pctchange = (total-lag(total))/lag(total)*100)
   
 
-
+#summarytools summaries
+view(dfSummary(salaries))
 
