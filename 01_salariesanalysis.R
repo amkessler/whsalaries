@@ -56,7 +56,7 @@ joined2 <- joined %>%
     salary2018 = salary.y,
     title2017 = positiontitle.x,
     title2018 = positiontitle.y
-    )
+  )
 
 raises <- joined2 %>% 
   mutate(
