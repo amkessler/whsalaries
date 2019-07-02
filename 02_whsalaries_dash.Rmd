@@ -101,7 +101,7 @@ raises <- joined2 %>%
 
 2018-2019 Salaries Data 
 =====================================
-To filter, click on the boxes at the top of the columns. To sort, use the up/down arrows by the column names.
+To filter, click on the boxes at the top of the columns. To sort, use the up/down arrows by the column names. Today is 
 
 Row {data-height=1000}
 -----------------------------------------------------------------------
