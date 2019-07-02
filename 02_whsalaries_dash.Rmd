@@ -99,7 +99,7 @@ raises <- joined2 %>%
 
 
 
-2018-2019 Salaries Data 
+2017-2019 Salaries Data 
 =====================================
 To filter, click on the boxes at the top of the columns. To sort, use the up/down arrows by the column names. Today is 
 
@@ -140,7 +140,7 @@ datatable(salaries_table,
 ```
 
 
-Who got the biggest raises 
+Who got the biggest raises (2017 to 2018)
 =====================================
 To filter, click on the boxes at the top of the columns. To sort, use the up/down arrows by the column names.
 
