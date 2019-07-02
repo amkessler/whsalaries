@@ -140,7 +140,7 @@ datatable(salaries_table,
 ```
 
 
-Who got the biggest raises (2017 to 2018)
+Who got the biggest raises (2018 to 2019)
 =====================================
 To filter, click on the boxes at the top of the columns. To sort, use the up/down arrows by the column names.
 
