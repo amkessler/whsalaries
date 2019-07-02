@@ -28,36 +28,37 @@ library(htmlwidgets)
 library(htmltools)
 library(tigris)
 options(tigris_class = "sf")
+library(readxl)
 
 
 #import and format columns
-salaries <- read_csv("whsalaries_2017_2018.csv")
+salaries <- read_xlsx("whsalaries_2017_thru_2019.xlsx")
 
 salaries <- salaries %>% 
-  clean_names() %>% 
-  mutate(
-    name = str_to_upper(name),
-    last = str_to_upper(last),
-    first_m = str_to_upper(first_m),
-    first = str_to_upper(first),
-    status = str_to_upper(status),
-    paybasis = str_to_upper(paybasis),
-    positiontitle = str_to_upper(positiontitle)
-    )
+  clean_names()  
+  # mutate(
+  #   name = str_to_upper(name),
+  #   last = str_to_upper(last),
+  #   first_m = str_to_upper(first_m),
+  #   first = str_to_upper(first),
+  #   status = str_to_upper(status),
+  #   paybasis = str_to_upper(paybasis),
+  #   positiontitle = str_to_upper(positiontitle)
+  #   )
 
-salaries$salary <- parse_number(salaries$salary)
+# salaries$salary <- parse_number(salaries$salary)
 
-
+glimpse(salaries)
 
 #### looking for those who are in both years' of data ####
-
-yr2017 <- salaries %>% 
-  filter(year == "2017")
 
 yr2018 <- salaries %>% 
   filter(year == "2018")
 
-joined <- inner_join(yr2017, yr2018, by = c("name" = "name"))
+yr2019 <- salaries %>% 
+  filter(year == "2019")
+
+joined <- inner_join(yr2018, yr2019, by = c("name" = "name"))
 
 names(joined)
 
@@ -65,25 +66,25 @@ names(joined)
 joined2 <- joined %>% 
   select(
     name,
-    salary2017 = salary.x,
-    salary2018 = salary.y,
-    title2017 = positiontitle.x,
-    title2018 = positiontitle.y
+    salary2018 = salary.x,
+    salary2019 = salary.y,
+    title2018 = positiontitle.x,
+    title2019 = positiontitle.y
     )
 
 raises <- joined2 %>% 
   mutate(
-    difference = (salary2018 - salary2017),
-    pct_change = (difference/salary2017)
+    difference = (salary2019 - salary2018),
+    pct_change = (difference/salary2018)
   ) %>% 
   select(
     name,
-    salary2017,
     salary2018,
+    salary2019,
     difference,
     pct_change,
-    title2017,
-    title2018
+    title2018,
+    title2019
   ) %>% 
   arrange(desc(pct_change))
 
@@ -98,7 +99,7 @@ raises <- joined2 %>%
 
 
 
-2017-2018 Salaries Data 
+2018-2019 Salaries Data 
 =====================================
 To filter, click on the boxes at the top of the columns. To sort, use the up/down arrows by the column names.
 
@@ -117,17 +118,16 @@ salaries_table <- salaries %>%
     status = as.factor(status)
     )
 
-
 datatable(salaries_table,
           rownames = FALSE,
           filter = "top",
-          extensions = 'Buttons', 
+          extensions = 'Buttons',
           options = list(searchHighlight = TRUE, bPaginate = FALSE, dom = 'Bfrtip',
        buttons = c('copy', 'csv', 'excel', 'print')
-          )) %>% 
-      formatCurrency('salary', digits = 0) %>% 
-      formatStyle(c("last","first_mid", "salary"), fontWeight = 'bold') %>% 
-      # formatStyle("salary", color = "darkred") %>% 
+          )) %>%
+      formatCurrency('salary', digits = 0) %>%
+      formatStyle(c("last","first_mid", "salary"), fontWeight = 'bold') %>%
+      # formatStyle("salary", color = "darkred") %>%
       formatStyle(
       'salary',
       background = styleColorBar(salaries_table$salary, 'steelblue'),
@@ -136,10 +136,6 @@ datatable(salaries_table,
       backgroundPosition = 'center'
     )
 
-
-  # DT::formatPercentage(c('approve', 'disapprove')) %>% 
-  # DT::formatStyle('approve',  color = 'darkgreen', fontWeight = 'bold') %>% 
-  # DT::formatStyle('disapprove',  color = 'darkred', fontWeight = 'bold') 
 
 ```
 
@@ -160,7 +156,7 @@ datatable(raises,
           options = list(searchHighlight = TRUE, bPaginate = FALSE, dom = 'Bfrtip',
        buttons = c('copy', 'csv', 'excel', 'print')
           )) %>% 
-      formatCurrency(c("salary2017", "salary2018", "difference"), digits = 0) %>% 
+      formatCurrency(c("salary2018", "salary2019", "difference"), digits = 0) %>% 
       formatStyle(c("name", "difference", "pct_change"), fontWeight = 'bold') %>% 
       formatPercentage("pct_change") %>% 
       formatStyle(c("difference", "pct_change"), color = "darkgreen") 
@@ -169,9 +165,3 @@ datatable(raises,
 
 ```
 
-
-
-
-Questions
-=====================================
-If you have any questions about these records, please contact Maegan.Vazquez@turner.com or Aaron.Kessler@turner.com. (Note: we expect the new 2019 salary figures to be available in July.)
