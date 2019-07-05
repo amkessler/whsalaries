@@ -116,7 +116,12 @@ salaries_table <- salaries %>%
   mutate(
     year = as.factor(year),
     status = as.factor(status)
-    )
+    ) %>% 
+  arrange(
+    desc(year),
+    last,
+    first_mid
+  )
 
 datatable(salaries_table,
           rownames = FALSE,

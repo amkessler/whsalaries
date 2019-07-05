@@ -5,8 +5,8 @@ account: akessler
 server: connect.adds.turnerapps.com
 hostUrl: https://connect.adds.turnerapps.com/__api__
 appId: 73
-bundleId: 244
+bundleId: 245
 url: https://connect.adds.turnerapps.com/content/73/
-when: 1562107779.02558
+when: 1562337555.70839
 asMultiple: FALSE
 asStatic: TRUE
